@@ -1,11 +1,11 @@
 export class Song {
     readonly id?: number;
-    readonly name: string;
+    readonly title: string;
     readonly length: number;
     readonly artist: string;
 
-    constructor(song: { name: string; length: number; artist: string }) {
-        this.name = song.name;
+    constructor(song: { title: string; length: number; artist: string }) {
+        this.title = song.title;
         this.length = song.length;
         this.artist = song.artist;
     }
@@ -14,8 +14,8 @@ export class Song {
         return this.id;
     }
 
-    public getName(): string {
-        return this.name;
+    public getTtile(): string {
+        return this.title;
     }
 
     public getLength(): number {
@@ -28,7 +28,7 @@ export class Song {
 
     equals(song: Song): boolean {
         return (
-            this.name === song.name &&
+            this.title === song.title &&
             this.length === song.length &&
             this.artist === song.artist
         );

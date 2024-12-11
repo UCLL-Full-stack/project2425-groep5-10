@@ -1,6 +1,6 @@
 import { Song } from './song';
 
-class Playlist {
+export class Playlist {
     readonly id?: number;
     readonly name: string;
     readonly description: string;
@@ -28,11 +28,15 @@ class Playlist {
         return this.songs;
     }
 
+    addSongToPlaylist(song: Song): void {
+        this.songs.push(song);
+    }
+
     equals(playlist: Playlist): boolean {
         return (
             this.name === playlist.name &&
             this.description === playlist.description &&
-            this.songs === playlist.songs
+            this.songs.every((song, index) => song.equals(playlist.songs[index]))
         );
     }
 }
