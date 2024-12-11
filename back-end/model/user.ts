@@ -5,9 +5,23 @@ export class User {
     readonly password: string;
 
     constructor(user: { name: string; email: string; password: string }) {
+        this.validate(user);
+        
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
+    }
+
+    validate(user: { name: string; email: string; password: string }): void {
+        if (!user.name) {
+            throw new Error('User name is required');
+        }
+        if (!user.email) {
+            throw new Error('User email is required');
+        }
+        if (!user.password) {
+            throw new Error('User password is required');
+        }
     }
 
     public getId(): number | undefined {
