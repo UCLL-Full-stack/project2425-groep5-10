@@ -30,3 +30,9 @@ const getReviewsBySongId = (songId: number):Review[] => {
 
     return review;
 };
+
+export default {
+    createReview,
+    getAllReviews,
+    getReviewsBySongId,
+};

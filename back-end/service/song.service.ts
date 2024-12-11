@@ -21,7 +21,7 @@ const createSong = ({
 
 const getAllSongs = ():Song[] => songDb.getAllSongs();
 
-const getSongByName = (title: string):Song => {
+const getSongByTitle = (title: string):Song => {
     if (!title) {
         throw new Error('Title is required');
     }
@@ -52,6 +52,6 @@ const getSongsByArtist = (artist: string):Song[] => {
 export default {
     createSong,
     getAllSongs,
-    getSongByName,
+    getSongByTitle,
     getSongsByArtist
 };
