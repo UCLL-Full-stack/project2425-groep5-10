@@ -35,6 +35,7 @@
  */
 import express from 'express';
 import reviewService from '../service/review.service';
+import { ReviewInput } from '../types';
 
 const reviewRouter = express.Router();
 

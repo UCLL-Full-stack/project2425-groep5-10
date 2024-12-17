@@ -36,6 +36,7 @@
  */
 import express from 'express';
 import songService from '../service/song.service';
+import { SongInput } from '../types';
 
 const songRouter = express.Router();
 

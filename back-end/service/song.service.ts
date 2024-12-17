@@ -1,5 +1,6 @@
 import { Song } from "../model/song";
 import songDb from "../repository/song.db";
+import { SongInput } from "../types";
 
 const createSong = ({
     title,

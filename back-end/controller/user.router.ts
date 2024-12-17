@@ -35,6 +35,7 @@
  */
 import express from 'express';
 import userService from '../service/user.service';
+import { UserInput } from '../types';
 
 const userRouter = express.Router();
 

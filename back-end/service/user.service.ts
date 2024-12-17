@@ -1,5 +1,6 @@
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
+import { UserInput } from "../types";
 
 const createUser = ({
     name,

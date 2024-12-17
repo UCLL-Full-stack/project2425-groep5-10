@@ -1,5 +1,6 @@
 import { Playlist } from '../model/playlist';
 import playlistDb from '../repository/playlist.db';
+import { PlaylistInput } from '../types';
 
 const createPlaylist = ({ name, description}: PlaylistInput): Playlist => {
     if (!name || !description) {

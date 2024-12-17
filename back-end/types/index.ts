@@ -25,3 +25,5 @@ type UserInput = {
     email?: string;
     password?: string;
 };
+
+export { PlaylistInput, SongInput, ReviewInput, UserInput };

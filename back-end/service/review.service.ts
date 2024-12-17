@@ -1,5 +1,6 @@
 import { Review } from '../model/review';
 import reviewDb from '../repository/review.db';
+import { ReviewInput } from '../types';
 
 const createReview = ({ rating, content, songId }: ReviewInput): Review => {
     if (!rating || !content || !songId) {

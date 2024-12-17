@@ -34,6 +34,7 @@
  */
 import express from 'express';
 import playlistService from '../service/playlist.service';
+import { PlaylistInput } from '../types';
 
 const playlistRouter = express.Router();
 
