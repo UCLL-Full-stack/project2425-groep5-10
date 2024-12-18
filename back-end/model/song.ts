@@ -1,3 +1,5 @@
+import { Song as SongPrisma } from '@prisma/client';
+
 export class Song {
     readonly id?: number;
     readonly title: string;
@@ -47,5 +49,13 @@ export class Song {
         return (
             this.title === song.title && this.duration === song.duration && this.artist === song.artist
         );
+    }
+
+    static from({ id, title, duration, artist }: SongPrisma): Song {
+        return new Song({
+            title,
+            duration,
+            artist,
+        });
     }
 }

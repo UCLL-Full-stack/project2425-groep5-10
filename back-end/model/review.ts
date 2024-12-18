@@ -1,18 +1,23 @@
+import { Review as ReviewPrisma,
+    Song as SongPrisma
+ } from '@prisma/client';
+import { Song } from './song';
+
 export class Review {
     readonly id?: number;
     readonly rating: number;
     readonly content: string;
-    readonly songId: number;
+    readonly song: Song;
 
-    constructor(review: { rating: number; content: string; songId: number }) {
+    constructor(review: { rating: number; content: string; song: Song }) {
         this.validate(review);
 
         this.rating = review.rating;
         this.content = review.content;
-        this.songId = review.songId;
+        this.song = review.song;
     }
 
-    validate(review: { rating: number; content: string; songId: number }): void {
+    validate(review: { rating: number; content: string; song: Song }): void {
         if (!review.rating) {
             throw new Error('Review rating is required');
         }
@@ -22,7 +27,7 @@ export class Review {
         if (!review.content) {
             throw new Error('Review content is required');
         }
-        if (!review.songId) {
+        if (!review.song) {
             throw new Error('Review songId is required');
         }
     }
@@ -39,15 +44,23 @@ export class Review {
         return this.content;
     }
 
-    public getSongId(): number {
-        return this.songId;
+    public getSong(): Song {
+        return this.song;
     }
 
     equals(review: Review): boolean {
         return (
             this.rating === review.rating &&
             this.content === review.content &&
-            this.songId === review.songId
+            this.song === review.song
         );
+    }
+
+    static from({id,rating,content,song}: ReviewPrisma & {song: SongPrisma}): Review {
+        return new Review({
+            rating,
+            content,
+            song: Song.from(song),
+        });
     }
 }

@@ -1,18 +1,21 @@
 import { Song } from '../model/song';
+import database from './database';
 
-const songs: Song[] = [];
+const createSong = async ({title,duration,artist}: Song):Promise<Song> => {
+    try{
+        const songPrisma = await database.song.create({
+            data: {
+                title,
+                duration,
+                artist
+            }
+        });
 
-const createSong = ({title,duration,artist}: Song) => {
-    const song = new Song(
-        {
-            title: title,
-            duration: duration,
-            artist: artist
-        }
-    );
-    
-    songs.push(song);
-    return song;
+        return Song.from(songPrisma);
+    }
+    catch(error){
+        throw new Error('Failed to create song');
+    }
 };
 
 const getAllSongs = (): Song[] => songs;

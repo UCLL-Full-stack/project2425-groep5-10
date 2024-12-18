@@ -48,7 +48,7 @@ const AddPlaylistForm: React.FC<Props> = ({ songs }) => {
         onChange={(event) => setDescription(event.target.value)}
       />
       <label htmlFor="songs">Songs</label>
-      <div id="songs" style={{ maxHeight: "200px", overflowY: "scroll" }}>
+      <div id="songs">
         {songs.map((song) => (
           <div key={song.id}>
             <input

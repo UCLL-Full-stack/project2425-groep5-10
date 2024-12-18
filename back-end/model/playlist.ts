@@ -1,19 +1,31 @@
 import { Song } from './song';
+import { Playlist as PlaylistPrisma,
+    Song as SongPrisma,
+    User as UserPrisma
+ } from '@prisma/client';
+import { User } from './user';
 
 export class Playlist {
     readonly id?: number;
     readonly name: string;
     readonly description: string;
     readonly songs: Song[];
-    readonly userId: number;
+    readonly user: User;
 
-    constructor(playlist: { name: string; description: string; songs: Song[]; userId: number }) {
+    constructor(playlist: {
+        id?: number;
+        name: string;
+        description: string;
+        songs: Song[];
+        user: User;
+    }) {
         this.validate(playlist);
 
         this.name = playlist.name;
         this.description = playlist.description;
         this.songs = playlist.songs;
-        this.userId = playlist.userId;
+        this.user = playlist.user;
+        this.id = playlist.id;
     }
 
     validate(playlist: { name: string; description: string }): void {
@@ -41,8 +53,8 @@ export class Playlist {
         return this.songs;
     }
 
-    public getUserId(): number {
-        return this.userId;
+    public getUser(): User {
+        return this.user;
     }
 
     addSongToPlaylist(song: Song): void {
@@ -54,7 +66,23 @@ export class Playlist {
             this.name === playlist.name &&
             this.description === playlist.description &&
             this.songs.every((song, index) => song.equals(playlist.songs[index])) &&
-            this.userId === playlist.userId
+            this.user === playlist.user
         );
+    }
+
+    static from({
+        id,
+        name,
+        description,
+        user,
+        songs
+    }: PlaylistPrisma & { user: UserPrisma; songs: SongPrisma[] }) {
+        return new Playlist({
+            id,
+            name,
+            description,
+            user: User.from(user),
+            songs: songs.map((song) => Song.from(song))
+        });
     }
 }

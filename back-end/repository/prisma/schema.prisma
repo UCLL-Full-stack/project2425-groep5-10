@@ -10,7 +10,7 @@ datasource db {
 model Playlist {
     id          Int   @id @default(autoincrement())
     name        String
-    description String?
+    description String
     songs       Song[]
     userId      Int
     user        User   @relation(fields: [userId], references: [id])
@@ -28,7 +28,7 @@ model Song{
 model Review{
     id        Int      @id @default(autoincrement())
     rating    Int
-    content   String?
+    content   String
     songId    Int      @unique
     song      Song     @relation(fields: [songId], references: [id])
 }

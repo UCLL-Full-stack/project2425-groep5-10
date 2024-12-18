@@ -25,6 +25,7 @@ const Playlist: React.FC = () => {
 
   useEffect(() => {
     getAllPlaylists();
+    getAllSongs();
   }, []);
 
   return (
