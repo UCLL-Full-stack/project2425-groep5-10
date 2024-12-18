@@ -1,26 +1,26 @@
 export class Song {
     readonly id?: number;
     readonly title: string;
-    readonly length: number;
+    readonly duration: number;
     readonly artist: string;
 
-    constructor(song: { title: string; length: number; artist: string }) {
+    constructor(song: { title: string; duration: number; artist: string }) {
         this.validate(song);
 
         this.title = song.title;
-        this.length = song.length;
+        this.duration = song.duration;
         this.artist = song.artist;
     }
 
-    validate(song: { title: string; length: number; artist: string }): void {
+    validate(song: { title: string; duration: number; artist: string }): void {
         if (!song.title) {
             throw new Error('Song title is required');
         }
-        if (!song.length) {
-            throw new Error('Song length is required');
+        if (!song.duration) {
+            throw new Error('Song duration is required');
         }
-        if (song.length < 0) {
-            throw new Error('Song length must be greater than 0');
+        if (song.duration < 0) {
+            throw new Error('Song duration must be greater than 0');
         }
         if (!song.artist) {
             throw new Error('Song artist is required');
@@ -35,8 +35,8 @@ export class Song {
         return this.title;
     }
 
-    public getLength(): number {
-        return this.length;
+    public getduration(): number {
+        return this.duration;
     }
 
     public getArtist(): string {
@@ -45,7 +45,7 @@ export class Song {
 
     equals(song: Song): boolean {
         return (
-            this.title === song.title && this.length === song.length && this.artist === song.artist
+            this.title === song.title && this.duration === song.duration && this.artist === song.artist
         );
     }
 }

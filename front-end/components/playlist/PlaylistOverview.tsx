@@ -1,13 +1,13 @@
 import { Playlist } from "@/types";
 
 type Props = {
-    playlist: Array<Playlist>;
+    playlists: Array<Playlist>;
 };
 
-const PlaylistOverview: React.FC<Props> = ({ playlist }) => {
+const PlaylistOverview: React.FC<Props> = ({ playlists }) => {
     return (
         <section>
-            {playlist.map((playlist) => (
+            {playlists.map((playlist) => (
                 <div key={playlist.id}>
                     <h2>{playlist.name}</h2>
                     <p>{playlist.description}</p>

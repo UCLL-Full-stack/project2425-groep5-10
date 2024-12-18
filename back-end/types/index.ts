@@ -9,7 +9,7 @@ type PlaylistInput = {
 type SongInput = {
     id?: number;
     title?: string;
-    length?: number;
+    duration?: number;
     artist?: string;
 };
 

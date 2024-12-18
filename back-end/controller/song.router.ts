@@ -16,10 +16,10 @@
  *            title:
  *              type: string
  *              description: Song title.
- *            length:
+ *            duration:
  *              type: number
  *              format: int64
- *              description: Song length.
+ *              description: Song duration.
  *            artist:
  *              type: string
  *              description: Song artist.
@@ -28,7 +28,7 @@
  *          properties:
  *            title:
  *              type: string
- *            length:
+ *            duration:
  *              type: number
  *            artist:
  *              type: string

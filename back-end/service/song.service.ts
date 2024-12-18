@@ -4,16 +4,16 @@ import { SongInput } from "../types";
 
 const createSong = ({
     title,
-    length,
+    duration,
     artist,
 }:SongInput):Song => {
-    if (!title || !length || !artist) {
+    if (!title || !duration || !artist) {
         throw new Error('Missing required fields');
     }
 
     const song = new Song({
         title,
-        length,
+        duration,
         artist,
     });
 

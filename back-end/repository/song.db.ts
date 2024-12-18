@@ -2,11 +2,11 @@ import { Song } from '../model/song';
 
 const songs: Song[] = [];
 
-const createSong = ({title,length,artist}: Song) => {
+const createSong = ({title,duration,artist}: Song) => {
     const song = new Song(
         {
             title: title,
-            length: length,
+            duration: duration,
             artist: artist
         }
     );
