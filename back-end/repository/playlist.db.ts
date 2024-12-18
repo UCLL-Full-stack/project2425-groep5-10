@@ -1,29 +1,68 @@
 import { Playlist } from '../model/playlist';
+import database from './database';
 
-const playlists: Playlist[] = [];
+const createPlaylist = async ({ name, description, songs, user }: Playlist): Promise<Playlist> => {
+    try {
+        const playlistPrisma = await database.playlist.create({
+            data: {
+                name,
+                description,
+                songs: {
+                    connect: songs.map((song) => ({ id: song.getId() })),
+                },
+                user: {
+                    connect: {
+                        id: user.getId(),
+                    },
+                },
+            },
+            include: {
+                songs: true,
+                user: true,
+            },
+        });
 
-const createPlaylist = ({name,description,userId}: Playlist) => {
-    const playlist = new Playlist(
-        {
-            name: name,
-            description: description,
-            songs: [],
-            userId: userId
-        }
-    );
-    
-    playlists.push(playlist);
-    return playlist;
+        return Playlist.from(playlistPrisma);
+    } catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
 };
 
-const getAllPlaylists = (): Playlist[] => playlists;
+const getAllPlaylists = async (): Promise<Playlist[]> => {
+    try {
+        const playlistPrismas = await database.playlist.findMany({
+            include: {
+                songs: true,
+                user: true,
+            },
+        });
 
-const getPlaylistByName = (name: string) => {
-    return playlists.find(playlist => playlist.getName() === name);
-};
+        return playlistPrismas.map(Playlist.from);
+    } catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
+}
+
+const getPlaylistByName = async ({ name }: { name: string }): Promise<Playlist | null> => {
+    try {
+        const playlistPrisma = await database.playlist.findUnique({
+            where: {
+                name,
+            },
+            include: {
+                songs: true,
+                user: true,
+            },
+        });
+
+        return playlistPrisma ? Playlist.from(playlistPrisma) : null;
+    } catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
+}
 
 export default {
     createPlaylist,
     getAllPlaylists,
-    getPlaylistByName
+    getPlaylistByName,
 };

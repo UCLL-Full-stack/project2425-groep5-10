@@ -9,7 +9,7 @@ datasource db {
 
 model Playlist {
     id          Int   @id @default(autoincrement())
-    name        String
+    name        String @unique
     description String
     songs       Song[]
     userId      Int
@@ -18,7 +18,7 @@ model Playlist {
 
 model Song{
     id        Int      @id @default(autoincrement())
-    title     String
+    title     String   @unique
     duration    Int
     artist    String
     playlist  Playlist[]
