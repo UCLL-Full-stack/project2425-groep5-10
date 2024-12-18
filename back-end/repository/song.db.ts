@@ -51,9 +51,23 @@ const getSongsByArtist = async ({artist}: { artist: string }): Promise<Song[]> =
     }
 };
 
+const getSongById = async (id: number): Promise<Song | null> => {
+    try{const songPrisma = await database.song.findUnique({
+        where: {
+            id
+        },
+    });
+
+    return songPrisma? Song.from(songPrisma): null;}
+    catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
+};
+
 export default {
     createSong,
     getAllSongs,
     getSongByTitle,
     getSongsByArtist,
+    getSongById,
 };

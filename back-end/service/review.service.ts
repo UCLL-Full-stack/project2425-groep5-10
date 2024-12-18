@@ -1,39 +1,34 @@
 import { Review } from '../model/review';
 import reviewDb from '../repository/review.db';
+import songDb from '../repository/song.db';
 import { ReviewInput } from '../types';
 
-const createReview = ({ rating, content, songId }: ReviewInput): Review => {
-    if (!rating || !content || !songId) {
-        throw new Error('Rating, content, and song are required');
+const createReview = async ({song:songInput,content,rating}: ReviewInput): Promise<Review> => {
+  if (!songInput.id) {
+        throw new Error('Song is required');
     }
 
-    const review = new Review({
-        rating,
-        content,
-        songId,
-    });
+    const song = await songDb.getSongById(songInput.id);
 
-    return reviewDb.createReview(review);
+    if (!song) {
+        throw new Error('Song not found');
+    }
+
+    const review = new Review({rating,content,song});
+
+    return await reviewDb.createReview(review);
 };
 
-const getAllReviews = ():Review[] => reviewDb.getAllReviews();
+const getAllReviews = (): Promise<Review[]> => {
+    return reviewDb.getAllReviews();
+}
 
-const getReviewsBySongId = (songId: number):Review[] => {
-    if (!songId) {
-        throw new Error('songId is required');
-    }
-
-    const review = reviewDb.getReviewBySongId(songId);
-
-    if (!review) {
-        throw new Error('Review not found');
-    }
-
-    return review;
-};
+const getReviewsBySong = async (songId: number): Promise<Review | null> => {
+    return reviewDb.getReviewsBySong({id: songId});
+}
 
 export default {
     createReview,
     getAllReviews,
-    getReviewsBySongId,
+    getReviewsBySong,
 };

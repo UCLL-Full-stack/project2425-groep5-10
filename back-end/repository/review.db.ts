@@ -39,7 +39,7 @@ const getAllReviews = async (): Promise<Review[]> => {
     }
 }
 
-const getReviewBySong = async ({ id }: { id: number }): Promise<Review | null> => {
+const getReviewsBySong = async ({ id }: { id: number }): Promise<Review | null> => {
     try {
         const reviewPrisma = await database.review.findFirst({
             where: {
@@ -59,5 +59,5 @@ const getReviewBySong = async ({ id }: { id: number }): Promise<Review | null> =
 export default {
     createReview,
     getAllReviews,
-    getReviewBySong,
+    getReviewsBySong,
 };

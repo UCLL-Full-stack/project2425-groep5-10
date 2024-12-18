@@ -119,7 +119,7 @@ reviewRouter.get('/', (req, res) => {
 reviewRouter.get('/song/:songId', (req, res) => {
     try {
         const songId = parseInt(req.params.songId);
-        const result = reviewService.getReviewsBySongId(songId);
+        const result = reviewService.getReviewsBySong(songId);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

@@ -1,9 +1,9 @@
 type PlaylistInput = {
     id?: number;
-    name?: string;
-    description?: string;
+    name: string;
+    description: string;
     songs?: SongInput[];
-    userId?: number;
+    user: UserInput;
 };
 
 type SongInput = {
@@ -15,9 +15,9 @@ type SongInput = {
 
 type ReviewInput = {
     id?: number;
-    rating?: number;
-    content?: string;
-    songId?: number;
+    rating: number;
+    content: string;
+    song: SongInput;
 };
 
 type UserInput = {
