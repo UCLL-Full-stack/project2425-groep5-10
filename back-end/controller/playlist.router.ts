@@ -23,6 +23,9 @@
  *              type: array
  *              items:
  *                  $ref: '#/components/schemas/Song'
+ *            userId:
+ *              type: number
+ *              description: The user ID of the playlist owner.
  *      PlaylistInput:
  *          type: object
  *          properties:

@@ -5,13 +5,15 @@ export class Playlist {
     readonly name: string;
     readonly description: string;
     readonly songs: Song[];
+    readonly userId: number;
 
-    constructor(playlist: { name: string; description: string; songs: Song[] }) {
+    constructor(playlist: { name: string; description: string; songs: Song[]; userId: number }) {
         this.validate(playlist);
 
         this.name = playlist.name;
         this.description = playlist.description;
         this.songs = playlist.songs;
+        this.userId = playlist.userId;
     }
 
     validate(playlist: { name: string; description: string }): void {
@@ -39,6 +41,10 @@ export class Playlist {
         return this.songs;
     }
 
+    public getUserId(): number {
+        return this.userId;
+    }
+
     addSongToPlaylist(song: Song): void {
         this.songs.push(song);
     }
@@ -47,7 +53,8 @@ export class Playlist {
         return (
             this.name === playlist.name &&
             this.description === playlist.description &&
-            this.songs.every((song, index) => song.equals(playlist.songs[index]))
+            this.songs.every((song, index) => song.equals(playlist.songs[index])) &&
+            this.userId === playlist.userId
         );
     }
 }

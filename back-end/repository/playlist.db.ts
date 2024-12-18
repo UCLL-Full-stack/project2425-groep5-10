@@ -2,12 +2,13 @@ import { Playlist } from '../model/playlist';
 
 const playlists: Playlist[] = [];
 
-const createPlaylist = ({name,description}: Playlist) => {
+const createPlaylist = ({name,description,userId}: Playlist) => {
     const playlist = new Playlist(
         {
             name: name,
             description: description,
-            songs: []
+            songs: [],
+            userId: userId
         }
     );
     

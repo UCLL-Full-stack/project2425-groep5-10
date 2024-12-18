@@ -2,8 +2,8 @@ import { Playlist } from '../model/playlist';
 import playlistDb from '../repository/playlist.db';
 import { PlaylistInput } from '../types';
 
-const createPlaylist = ({ name, description}: PlaylistInput): Playlist => {
-    if (!name || !description) {
+const createPlaylist = ({ name, description,userId}: PlaylistInput): Playlist => {
+    if (!name || !description || !userId) {
         throw new Error('Name and description are required');
     }
 
@@ -11,6 +11,7 @@ const createPlaylist = ({ name, description}: PlaylistInput): Playlist => {
         name,
         description,
         songs: [],
+        userId
     });
 
     return playlistDb.createPlaylist(playlist);

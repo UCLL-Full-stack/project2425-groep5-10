@@ -3,6 +3,7 @@ type PlaylistInput = {
     name?: string;
     description?: string;
     songs?: SongInput[];
+    userId?: number;
 };
 
 type SongInput = {
