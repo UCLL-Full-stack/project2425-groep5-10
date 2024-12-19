@@ -58,10 +58,10 @@ const reviewRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Review'
  */
-reviewRouter.post('/', (req, res) => {
+reviewRouter.post('/', async (req, res) => {
     try {
         const review = <ReviewInput>req.body;
-        const result = reviewService.createReview(review);
+        const result = await reviewService.createReview(review);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -84,9 +84,9 @@ reviewRouter.post('/', (req, res) => {
  *               items:
  *                 $ref: '#/components/schemas/Review'
  */
-reviewRouter.get('/', (req, res) => {
+reviewRouter.get('/', async (req, res) => {
     try {
-        const result = reviewService.getAllReviews();
+        const result = await reviewService.getAllReviews();
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -116,10 +116,10 @@ reviewRouter.get('/', (req, res) => {
  *               items:
  *                 $ref: '#/components/schemas/Review'
  */
-reviewRouter.get('/song/:songId', (req, res) => {
+reviewRouter.get('/song/:songId', async (req, res) => {
     try {
         const songId = parseInt(req.params.songId);
-        const result = reviewService.getReviewsBySong(songId);
+        const result = await reviewService.getReviewsBySong(songId);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

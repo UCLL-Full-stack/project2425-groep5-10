@@ -59,10 +59,10 @@ const songRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Song'
  */
-songRouter.post('/', (req, res) => {
+songRouter.post('/', async (req, res) => {
     try {
         const song = <SongInput>req.body;
-        const result = songService.createSong(song);
+        const result = await songService.createSong(song);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -85,9 +85,9 @@ songRouter.post('/', (req, res) => {
  *               items:
  *                 $ref: '#/components/schemas/Song'
  */
-songRouter.get('/', (req, res) => {
+songRouter.get('/', async (req, res) => {
     try {
-        const result = songService.getAllSongs();
+        const result = await songService.getAllSongs();
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -115,10 +115,10 @@ songRouter.get('/', (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/Song'
  */
-songRouter.get('/title/:title', (req, res) => {
+songRouter.get('/title/:title', async (req, res) => {
     try {
         const title = req.params.title;
-        const result = songService.getSongByTitle(title);
+        const result = await songService.getSongByTitle(title);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -148,10 +148,10 @@ songRouter.get('/title/:title', (req, res) => {
  *               items:
  *                 $ref: '#/components/schemas/Song'
  */
-songRouter.get('/artist/:artist', (req, res) => {
+songRouter.get('/artist/:artist', async (req, res) => {
     try {
         const artist = req.params.artist;
-        const result = songService.getSongsByArtist(artist);
+        const result = await songService.getSongsByArtist(artist);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

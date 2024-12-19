@@ -60,10 +60,10 @@ const playlistRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/Playlist'
  */
-playlistRouter.post('/', (req, res) => {
+playlistRouter.post('/', async (req, res) => {
     try {
         const playlist = <PlaylistInput>req.body;
-        const result = playlistService.createPlaylist(playlist);
+        const result = await playlistService.createPlaylist(playlist);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -85,9 +85,9 @@ playlistRouter.post('/', (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/Playlist'
  */
-playlistRouter.get('/', (req, res) => {
+playlistRouter.get('/', async (req, res) => {
     try {
-        const result = playlistService.getAllPlaylists();
+        const result = await playlistService.getAllPlaylists();
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -115,10 +115,10 @@ playlistRouter.get('/', (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/Playlist'
  */
-playlistRouter.get('/name/:name', (req, res) => {
+playlistRouter.get('/name/:name', async (req, res) => {
     try {
         const name = req.params.name;
-        const result = playlistService.getPlaylistByName(name);
+        const result = await playlistService.getPlaylistByName(name);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

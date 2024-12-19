@@ -58,10 +58,10 @@ const userRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-userRouter.post('/', (req, res) => {
+userRouter.post('/', async (req, res) => {
     try {
         const user = <UserInput>req.body;
-        const result = userService.createUser(user);
+        const result = await userService.createUser(user);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -84,9 +84,9 @@ userRouter.post('/', (req, res) => {
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-userRouter.get('/', (req, res) => {
+userRouter.get('/', async (req, res) => {
     try {
-        const result = userService.getAllUsers();
+        const result = await userService.getAllUsers();
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -113,10 +113,10 @@ userRouter.get('/', (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-userRouter.get('/email/:email', (req, res) => {
+userRouter.get('/email/:email', async (req, res) => {
     try {
         const email = req.params.email;
-        const result = userService.getUserByEmail(email);
+        const result = await userService.getUserByEmail(email);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
