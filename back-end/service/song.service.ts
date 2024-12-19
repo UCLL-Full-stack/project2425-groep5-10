@@ -2,11 +2,11 @@ import { Song } from "../model/song";
 import songDb from "../repository/song.db";
 import { SongInput } from "../types";
 
-const createSong = ({
+const createSong = async ({
     title,
     duration,
     artist,
-}:SongInput):Song => {
+}:SongInput):Promise<Song> => {
     if (!title || !duration || !artist) {
         throw new Error('Missing required fields');
     }
@@ -17,17 +17,14 @@ const createSong = ({
         artist,
     });
 
-    return songDb.createSong(song);
+    return await songDb.createSong(song);
 };
 
-const getAllSongs = ():Song[] => songDb.getAllSongs();
+const getAllSongs = async ():Promise<Song[]> => await songDb.getAllSongs();
 
-const getSongByTitle = (title: string):Song => {
-    if (!title) {
-        throw new Error('Title is required');
-    }
+const getSongByTitle = async (title: string):Promise<Song> => {
 
-    const song = songDb.getSongByTitle(title);
+    const song = await songDb.getSongByTitle({title});
 
     if (!song) {
         throw new Error('Song not found');
@@ -36,12 +33,9 @@ const getSongByTitle = (title: string):Song => {
     return song;
 }
 
-const getSongsByArtist = (artist: string):Song[] => {
-    if (!artist) {
-        throw new Error('Artist is required');
-    }
-
-    const songs = songDb.getSongsByArtist(artist);
+const getSongsByArtist = async (artist: string):Promise<Song[]> => {
+    
+    const songs = await songDb.getSongsByArtist({artist});
 
     if (!songs) {
         throw new Error('Songs not found');

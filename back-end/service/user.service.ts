@@ -2,11 +2,11 @@ import { User } from "../model/user";
 import userDb from "../repository/user.db";
 import { UserInput } from "../types";
 
-const createUser = ({
+const createUser = async ({
     name,
     email,
     password
-}: UserInput):User => {
+}: UserInput):Promise<User> => {
     if (!name || !email || !password) {
         throw new Error('Invalid input')
     }
@@ -17,17 +17,17 @@ const createUser = ({
         password
     });
 
-    return userDb.createUser(user);
+    return await userDb.createUser(user);
 };
 
-const getAllUsers = ():User[] => userDb.getAllUsers();
+const getAllUsers = async ():Promise<User[]> => await userDb.getAllUsers();
 
-const getUserByEmail = (email: string):User => {
+const getUserByEmail = async (email: string):Promise<User> => {
     if (!email) {
         throw new Error('Email is required');
     }
 
-    const user = userDb.getUserByEmail(email);
+    const user = await userDb.getUserByEmail({email});
 
     if (!user) {
         throw new Error('User not found');

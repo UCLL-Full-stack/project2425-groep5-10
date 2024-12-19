@@ -20,7 +20,7 @@ const createPlaylist = async ({
                 throw new Error('Song is required');
             }
             const song = await songDb.getSongById(songInput.id);
-            if (!songInput) {
+            if (!song) {
                 throw new Error('Song not found');
             }
             return song;

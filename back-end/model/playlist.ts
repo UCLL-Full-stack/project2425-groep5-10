@@ -23,7 +23,7 @@ export class Playlist {
 
         this.name = playlist.name;
         this.description = playlist.description;
-        this.songs = playlist.songs;
+        this.songs = playlist.songs || [];
         this.user = playlist.user;
         this.id = playlist.id;
     }
