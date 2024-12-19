@@ -26,16 +26,16 @@ const Header: React.FC = () => {
           Home
         </Link>
         <Link
-          href="/lecturers"
+          href="/playlist"
           className="px-4 text-white text-xl hover:bg-gray-600 rounded-lg"
         >
-          Lecturers
+          Playlists
         </Link>
         <Link
-          href="/schedule/overview"
+          href="/song"
           className="px-4 text-white text-xl hover:bg-gray-600 rounded-lg"
         >
-          Schedules
+          Song
         </Link>
         {!loggedInUser && (<Link
           href="/login"

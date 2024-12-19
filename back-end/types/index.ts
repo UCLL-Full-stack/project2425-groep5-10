@@ -1,3 +1,9 @@
+enum Role {
+    ADMIN = 'admin',
+    USER ='user',
+    ARTIST='artist'
+}
+
 type PlaylistInput = {
     id?: number;
     name: string;
@@ -22,9 +28,16 @@ type ReviewInput = {
 
 type UserInput = {
     id?: number;
-    name?: string;
-    email?: string;
-    password?: string;
+    name: string;
+    email: string;
+    password: string;
+    role: Role;
 };
 
-export { PlaylistInput, SongInput, ReviewInput, UserInput };
+type AuthenticationResponse = {
+    token: string;
+    name: string;
+    role: string;
+};
+
+export { PlaylistInput, SongInput, ReviewInput, UserInput, Role, AuthenticationResponse };

@@ -25,6 +25,7 @@ const AddPlaylistForm: React.FC<Props> = ({ songs }) => {
       name,
       description,
       songs: selectedSongs,
+      user: { id: 1 },
     };
     const response = await PlaylistService.createPlaylist(newPlaylist);
     if (response.ok) {

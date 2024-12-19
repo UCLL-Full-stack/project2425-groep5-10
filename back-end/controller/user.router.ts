@@ -33,7 +33,7 @@
  *              type: string
  * 
  */
-import express from 'express';
+import express, { NextFunction } from 'express';
 import userService from '../service/user.service';
 import { UserInput } from '../types';
 
@@ -41,7 +41,7 @@ const userRouter = express.Router();
 
 /**
  * @swagger
- * /user:
+ * /user/signup:
  *   post:
  *     summary: Create a new user
  *     requestBody:
@@ -58,7 +58,7 @@ const userRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-userRouter.post('/', async (req, res) => {
+userRouter.post('/signup', async (req, res) => {
     try {
         const user = <UserInput>req.body;
         const result = await userService.createUser(user);
@@ -117,6 +117,17 @@ userRouter.get('/email/:email', async (req, res) => {
     try {
         const email = req.params.email;
         const result = await userService.getUserByEmail(email);
+        res.status(200).json(result);
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        res.status(400).json({ status: 'error', errorMessage: errorMessage });
+    }
+});
+
+userRouter.post('/login', async (req, res) => {
+    try {
+        const user = <UserInput>req.body;
+        const result = await userService.authenticate(user);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

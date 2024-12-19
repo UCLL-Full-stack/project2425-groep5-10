@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import PlaylistOverview from "@/components/playlist/PlaylistOverview";
 import CreatePlaylistForm from "@/components/playlist/CreatePlaylistForm";
 import SongService from "@/services/SongService";
+import Link from "next/link";
 
 const Playlist: React.FC = () => {
   const [playlists, setPlaylists] = useState<Array<Playlist>>([]);
@@ -17,29 +18,24 @@ const Playlist: React.FC = () => {
     setPlaylists(playlists);
   }
 
-  const getAllSongs = async () => {
-    const response = await SongService.getAllSongs();
-    const songs = await response.json();
-    setSongs(songs);
-  }
-
   useEffect(() => {
     getAllPlaylists();
-    getAllSongs();
   }, []);
 
   return (
     <>
         <Head>
-            <title>Lecturers</title>
+            <title>Playlists</title>
         </Head>
         <Header />
         <main>
-            <h1>Lecturers</h1>
+            <h1>Playlists</h1>
             <section>
                 <PlaylistOverview playlists={playlists} />
             </section>
-            <CreatePlaylistForm songs={songs}/>
+            <Link href="/playlist/create">
+                <p>Create playlist</p>
+            </Link>
         </main>
     </>
 );

@@ -1,12 +1,23 @@
 import { User } from "../model/user";
 import userDb from "../repository/user.db";
-import { UserInput } from "../types";
+import { AuthenticationResponse, UserInput } from "../types";
+import bcrypt from 'bcrypt';
+import { generateSWTtoken } from "../util/jwt";
 
 const createUser = async ({
     name,
     email,
-    password
+    password,
+    role
 }: UserInput):Promise<User> => {
+    const existingUser = await userDb.getUserByEmail({email});
+
+    if (existingUser) {
+        throw new Error('User already exists');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     if (!name || !email || !password) {
         throw new Error('Invalid input')
     }
@@ -14,7 +25,8 @@ const createUser = async ({
     const user = new User({
         name,
         email,
-        password
+        password:hashedPassword,
+        role
     });
 
     return await userDb.createUser(user);
@@ -36,8 +48,29 @@ const getUserByEmail = async (email: string):Promise<User> => {
     return user;
 };
 
+const authenticate = async ({name,email,password,role}:UserInput):Promise<AuthenticationResponse> => {
+    const user = await userDb.getUserByEmail({email});
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    const validPassword = await bcrypt.compare(password, user.getPassword());
+
+    if (!validPassword) {
+        throw new Error('Invalid password');
+    }
+    const token = generateSWTtoken(name,role);
+    return{
+        token:token,
+        name:name,
+        role:role
+    }
+}
+
 export default {
     createUser,
     getAllUsers,
     getUserByEmail,
+    authenticate
 };
