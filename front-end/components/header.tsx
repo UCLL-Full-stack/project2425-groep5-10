@@ -37,19 +37,19 @@ const Header: React.FC = () => {
         >
           Song
         </Link>
-        {!loggedInUser && (<Link
+        <Link
           href="/login"
           className="px-4 text-white text-xl hover:bg-gray-600 rounded-lg"
         >
           Login
-        </Link>)}
-       {loggedInUser && (<a
+        </Link>
+       {/* {loggedInUser && (<a
           href="/login"
           className="px-4 text-white text-xl hover:bg-gray-600 rounded-lg"
           onClick={() => logout()}
         >
           Logout
-        </a>)}
+        </a>)} */}
         {loggedInUser && (<div className="text-white ms-5 mt-2 md:mt-0 pt-1 md:pt-0 grow">
           Welcome, {loggedInUser}!
         </div>)}

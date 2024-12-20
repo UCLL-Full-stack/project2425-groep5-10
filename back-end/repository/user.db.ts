@@ -1,13 +1,14 @@
 import { User } from '../model/user';
 import database from './database';
 
-const createUser = async ({name, email, password }: User): Promise<User> => {
+const createUser = async ({name, email, password, role }: User): Promise<User> => {
     try {
         const userPrisma = await database.user.create({
             data: {
                 name,
                 email,
                 password,
+                role,
             },
         });
 

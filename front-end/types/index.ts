@@ -25,3 +25,8 @@ export type Review = {
     content?: string;
     songId?: number;
 };
+
+export type StatusMessage = {
+    message: string;
+    type: "error" | "success";
+};

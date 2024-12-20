@@ -124,6 +124,32 @@ userRouter.get('/email/:email', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     summary: Authenticate a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserInput'
+ *     responses:
+ *       200:
+ *         description: A JSON object with a token, name, and role
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 name:
+ *                   type: string
+ *                 role:
+ *                   type: string
+ */
 userRouter.post('/login', async (req, res) => {
     try {
         const user = <UserInput>req.body;

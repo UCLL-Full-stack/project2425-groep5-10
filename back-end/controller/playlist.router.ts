@@ -88,6 +88,7 @@ playlistRouter.post('/', async (req, res) => {
 playlistRouter.get('/', async (req, res) => {
     try {
         const result = await playlistService.getAllPlaylists();
+        console.log(result);
         res.status(200).json(result);
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';

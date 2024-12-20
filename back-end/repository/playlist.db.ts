@@ -37,7 +37,7 @@ const getAllPlaylists = async (): Promise<Playlist[]> => {
             },
         });
 
-        return playlistPrismas.map(Playlist.from);
+        return playlistPrismas.map((playlistPrisma) => Playlist.from(playlistPrisma));
     } catch (error) {
         throw new Error('Database error. See server log for details');
     }
