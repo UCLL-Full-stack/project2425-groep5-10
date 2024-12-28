@@ -9,9 +9,10 @@ export class Review {
     readonly content: string;
     readonly song: Song;
 
-    constructor(review: { rating: number; content: string; song: Song }) {
+    constructor(review: { id?: number; rating: number; content: string; song: Song }) {
         this.validate(review);
 
+        this.id = review.id;
         this.rating = review.rating;
         this.content = review.content;
         this.song = review.song;
@@ -58,6 +59,7 @@ export class Review {
 
     static from({id,rating,content,song}: ReviewPrisma & {song: SongPrisma}): Review {
         return new Review({
+            id,
             rating,
             content,
             song: Song.from(song),

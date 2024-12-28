@@ -8,9 +8,10 @@ export class User {
     readonly password: string;
     readonly role: Role;
 
-    constructor(user: { name: string; email: string; password: string, role: Role }) {
+    constructor(user: { id?: number; name: string; email: string; password: string, role: Role }) {
         this.validate(user);
         
+        this.id = user.id;
         this.name = user.name;
         this.email = user.email;
         this.password = user.password;
@@ -60,6 +61,7 @@ export class User {
 
     static from({ id, name, email, password, role }: UserPrisma): User {
         return new User({
+            id,
             name,
             email,
             password,

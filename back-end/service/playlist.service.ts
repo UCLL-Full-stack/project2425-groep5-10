@@ -16,22 +16,22 @@ const createPlaylist = async ({
 
     const songs = await Promise.all(
         songsInput.map(async (songInput) => {
-            if (!songInput.id) {
+            if (!songInput.title) {
                 throw new Error('Song is required');
             }
-            const song = await songDb.getSongById(songInput.id);
+            const song = await songDb.getSongByTitle({title: songInput.title});
             if (!song) {
                 throw new Error('Song not found');
             }
             return song;
         })
-    );
+    );  
 
-    if (!userInput.id) {
+    if (!userInput.email) {
         throw new Error('User is required');
     }
 
-    const user = await userDb.getUserById(userInput.id);
+    const user = await userDb.getUserByEmail({email: userInput.email});
 
     if (!user) {
         throw new Error('User not found');

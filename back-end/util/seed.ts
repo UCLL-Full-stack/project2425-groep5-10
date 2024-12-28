@@ -1,11 +1,12 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 const main = async () => {
     await prisma.playlist.deleteMany();
-    await prisma.song.deleteMany();
     await prisma.review.deleteMany();
+    await prisma.song.deleteMany();
     await prisma.user.deleteMany();
 
     const Despacito = await prisma.song.create({
@@ -51,7 +52,7 @@ const main = async () => {
                 create: {
                     name: 'Alice',
                     email: 'alice@gmail.com',
-                    password: 'alice123',
+                    password: await bcrypt.hash('alice123',12),
                     role: 'ADMIN',
                 },
             },
@@ -69,7 +70,7 @@ const main = async () => {
                 create: {
                     name: 'Bob',
                     email: 'bob@gmail.com',
-                    password: 'bob123',
+                    password: await bcrypt.hash('bob123',12),
                     role: 'USER',
                 },
             },

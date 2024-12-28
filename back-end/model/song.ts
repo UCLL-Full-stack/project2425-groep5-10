@@ -6,9 +6,10 @@ export class Song {
     readonly duration: number;
     readonly artist: string;
 
-    constructor(song: { title: string; duration: number; artist: string }) {
+    constructor(song: { id?: number; title: string; duration: number; artist: string }) {
         this.validate(song);
 
+        this.id = song.id;
         this.title = song.title;
         this.duration = song.duration;
         this.artist = song.artist;
@@ -53,6 +54,7 @@ export class Song {
 
     static from({ id, title, duration, artist }: SongPrisma): Song {
         return new Song({
+            id,
             title,
             duration,
             artist,

@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 
 const UserLoginForm: React.FC = () => {
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nameError, setNameError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -21,7 +21,7 @@ const UserLoginForm: React.FC = () => {
   const validate = (): boolean => {
     let result = true;
 
-    if (name! && name.trim() === "") {
+    if (email! && email.trim() === "") {
       setNameError("Name cannot be empty");
       result = false;
     }
@@ -43,7 +43,7 @@ const UserLoginForm: React.FC = () => {
       return;
     }
 
-    const user = { name, password };
+    const user = { email, password };
     const response = await UserService.loginUser(user);
 
     if (response.status == 200) {
@@ -61,7 +61,7 @@ const UserLoginForm: React.FC = () => {
       "loggedInUser",
       JSON.stringify({
         token: userData.token,
-        name: userData.name,
+        email: userData.email,
         role: userData.role,
       })
     );
@@ -71,7 +71,21 @@ const UserLoginForm: React.FC = () => {
     }, 2000);
   };
 
-  return <></>;
+  return <>
+  <form onSubmit={handleSubmit} className="flex flex-col w-64">
+    <label htmlFor="emailInput" className="text-lg">Email:</label>
+    <input type="text"
+    id="emailInput"
+    value={email}
+    onChange={(event) => setEmail(event.target.value)} />
+    <label htmlFor="passwordInput">Password:</label>
+    <input type="text"
+    id="passwordInput"
+    value={password}
+    onChange={(event) => setPassword(event.target.value)} />
+    <button type="submit">Login</button>
+  </form>
+  </>;
 };
 
 export default UserLoginForm;

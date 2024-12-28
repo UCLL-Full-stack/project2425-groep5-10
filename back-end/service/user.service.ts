@@ -63,8 +63,8 @@ const authenticate = async ({name,email,password,role}:UserInput):Promise<Authen
     const token = generateSWTtoken(name,role);
     return{
         token:token,
-        name:name,
-        role:role
+        email:user.getEmail(),
+        role:user.getRole()
     }
 }
 

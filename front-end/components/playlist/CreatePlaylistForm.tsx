@@ -9,23 +9,25 @@ type Props = {
 const AddPlaylistForm: React.FC<Props> = ({ songs }) => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [selectedSongs, setSelectedSongs] = useState<Array<string>>([]);
+  const [selectedSongs, setSelectedSongs] = useState<Array<Song>>([]);
 
-  const handleSongSelection = (songId: string) => {
+  const handleSongSelection = (song: Song) => {
     setSelectedSongs((prevSelectedSongs) =>
-      prevSelectedSongs.includes(songId)
-        ? prevSelectedSongs.filter((id) => id !== songId)
-        : [...prevSelectedSongs, songId]
+      prevSelectedSongs.includes(song)
+        ? prevSelectedSongs.filter((s) => s.title !== song.title)
+        : [...prevSelectedSongs, song]
     );
   };
+  
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    const user = JSON.parse(localStorage.getItem("loggedInUser")!).email;
     const newPlaylist = {
       name,
       description,
       songs: selectedSongs,
-      user: { id: 1 },
+      user: { email: user },
     };
     const response = await PlaylistService.createPlaylist(newPlaylist);
     if (response.ok) {
@@ -55,7 +57,8 @@ const AddPlaylistForm: React.FC<Props> = ({ songs }) => {
             <input
               type="checkbox"
               id={`song-${song.id}`}
-              onChange={() => song.id && handleSongSelection(song.id)}
+              checked={selectedSongs.includes(song || "")}
+              onChange={() => song && handleSongSelection(song)}
             />
             <label htmlFor={`song-${song.id}`}>{song.title}</label>
           </div>
