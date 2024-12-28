@@ -17,8 +17,8 @@ const createPlaylist: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Create Playlist</h1>
+    <div className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Create Playlist</h1>
       <AddPlaylistForm songs={songs} />
     </div>
   );

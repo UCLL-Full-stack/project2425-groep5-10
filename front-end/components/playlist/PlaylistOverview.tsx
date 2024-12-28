@@ -1,4 +1,5 @@
 import { Playlist } from "@/types";
+import Link from "next/link";
 
 type Props = {
     playlists: Array<Playlist>;
@@ -6,12 +7,14 @@ type Props = {
 
 const PlaylistOverview: React.FC<Props> = ({ playlists }) => {
     return (
-        <section>
+        <section className="space-y-4">
             {playlists.map((playlist) => (
-                <div key={playlist.id}>
-                    <h2>{playlist.name}</h2>
-                    <p>{playlist.description}</p>
+                <Link href={`/playlist/${playlist.id}`} key={playlist.id}>
+                <div className="p-4 bg-white shadow rounded-lg hover:bg-gray-100">
+                    <h2 className="text-xl font-bold">{playlist.name}</h2>
+                    <p className="text-gray-700">{playlist.description}</p>
                 </div>
+                </Link>
             ))}
         </section>
     );

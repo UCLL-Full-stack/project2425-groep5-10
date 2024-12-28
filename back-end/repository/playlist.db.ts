@@ -61,8 +61,26 @@ const getPlaylistByName = async ({ name }: { name: string }): Promise<Playlist |
     }
 }
 
+const getPlaylistById = async ({ id }: { id: number }): Promise<Playlist | null> => {
+    try {
+        const playlistPrisma = await database.playlist.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                songs: true,
+                user: true,
+            },
+        });
+        return playlistPrisma ? Playlist.from(playlistPrisma) : null;
+    } catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
+}
+
 export default {
     createPlaylist,
     getAllPlaylists,
     getPlaylistByName,
+    getPlaylistById,
 };

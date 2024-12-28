@@ -25,13 +25,13 @@ const Playlist: React.FC = () => {
             <title>Playlists</title>
         </Head>
         <Header />
-        <main>
-            <h1>Playlists</h1>
+        <main className="p-6">
+            <h1 className="text-2xl font-bold mb-4">Playlists</h1>
             <section>
                 {playlists && (<PlaylistOverview playlists={playlists} />)}
             </section>
             <Link href="/playlist/create">
-                <p>Create playlist</p>
+                <p className="text-blue-500 hover:underline">Create playlist</p>
             </Link>
         </main>
     </>

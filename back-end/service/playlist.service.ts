@@ -50,8 +50,13 @@ const getPlaylistByName = async (name: string): Promise<Playlist | null> => {
     return playlistDb.getPlaylistByName({ name });
 };
 
+const getPlaylistById = async (id: number): Promise<Playlist | null> => {
+    return playlistDb.getPlaylistById({ id });
+}
+
 export default {
     createPlaylist,
     getAllPlaylists,
     getPlaylistByName,
+    getPlaylistById,
 };

@@ -72,18 +72,20 @@ const UserLoginForm: React.FC = () => {
   };
 
   return <>
-  <form onSubmit={handleSubmit} className="flex flex-col w-64">
+  <form onSubmit={handleSubmit} className="flex flex-col w-64 space-y-4">
     <label htmlFor="emailInput" className="text-lg">Email:</label>
     <input type="text"
     id="emailInput"
     value={email}
-    onChange={(event) => setEmail(event.target.value)} />
-    <label htmlFor="passwordInput">Password:</label>
-    <input type="text"
+    onChange={(event) => setEmail(event.target.value)}
+    className="border p-2 rounded" />
+    <label htmlFor="passwordInput" className="text-lg">Password:</label>
+    <input type="password"
     id="passwordInput"
     value={password}
-    onChange={(event) => setPassword(event.target.value)} />
-    <button type="submit">Login</button>
+    onChange={(event) => setPassword(event.target.value)}
+    className="border p-2 rounded" />
+    <button type="submit" className="bg-blue-500 text-white p-2 rounded">Login</button>
   </form>
   </>;
 };

@@ -34,10 +34,22 @@ const getPlaylistByName = async (name: string) => {
     )
 }
 
+const getPlaylistById = async (id: string) => {
+    return fetch(process.env.NEXT_PUBLIC_API_URL + `/playlist/id/${id}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+    )
+}
+
 const PlaylistService = {
     getAllPlaylists,
     createPlaylist,
-    getPlaylistByName
+    getPlaylistByName,
+    getPlaylistById
 }
 
 export default PlaylistService;
