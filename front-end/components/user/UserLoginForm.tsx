@@ -61,6 +61,7 @@ const UserLoginForm: React.FC = () => {
       "loggedInUser",
       JSON.stringify({
         token: userData.token,
+        name: userData.name,
         email: userData.email,
         role: userData.role,
       })
@@ -71,23 +72,35 @@ const UserLoginForm: React.FC = () => {
     }, 2000);
   };
 
-  return <>
-  <form onSubmit={handleSubmit} className="flex flex-col w-64 space-y-4">
-    <label htmlFor="emailInput" className="text-lg">Email:</label>
-    <input type="text"
-    id="emailInput"
-    value={email}
-    onChange={(event) => setEmail(event.target.value)}
-    className="border p-2 rounded" />
-    <label htmlFor="passwordInput" className="text-lg">Password:</label>
-    <input type="password"
-    id="passwordInput"
-    value={password}
-    onChange={(event) => setPassword(event.target.value)}
-    className="border p-2 rounded" />
-    <button type="submit" className="bg-blue-500 text-white p-2 rounded">Login</button>
-  </form>
-  </>;
+  return (
+    <>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        <label htmlFor="emailInput" className="text-lg text-white">
+          Email:
+        </label>
+        <input
+          type="text"
+          id="emailInput"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          className="border p-2 rounded bg-gray-700 text-white"
+        />
+        <label htmlFor="passwordInput" className="text-lg text-white">
+          Password:
+        </label>
+        <input
+          type="password"
+          id="passwordInput"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          className="border p-2 rounded bg-gray-700 text-white"
+        />
+        <button type="submit" className="bg-indigo-600 text-white p-2 rounded hover:bg-indigo-700">
+          Login
+        </button>
+      </form>
+    </>
+  );
 };
 
 export default UserLoginForm;

@@ -137,4 +137,16 @@ playlistRouter.get('/id/:playlistId', async (req, res) => {
     }
 });
 
+playlistRouter.put('/:playlistId', async (req, res) => {
+    try {
+        const userId = req.params.playlistId;
+        const playlist = <PlaylistInput>req.body;
+        const result = await playlistService.updatePlaylist(Number(userId), playlist);
+        res.status(200).json(result);
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        res.status(400).json({ status: 'error', errorMessage: errorMessage });
+    }
+});
+
 export { playlistRouter };

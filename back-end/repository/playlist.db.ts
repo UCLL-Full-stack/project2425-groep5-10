@@ -41,7 +41,7 @@ const getAllPlaylists = async (): Promise<Playlist[]> => {
     } catch (error) {
         throw new Error('Database error. See server log for details');
     }
-}
+};
 
 const getPlaylistByName = async ({ name }: { name: string }): Promise<Playlist | null> => {
     try {
@@ -59,7 +59,7 @@ const getPlaylistByName = async ({ name }: { name: string }): Promise<Playlist |
     } catch (error) {
         throw new Error('Database error. See server log for details');
     }
-}
+};
 
 const getPlaylistById = async ({ id }: { id: number }): Promise<Playlist | null> => {
     try {
@@ -76,11 +76,41 @@ const getPlaylistById = async ({ id }: { id: number }): Promise<Playlist | null>
     } catch (error) {
         throw new Error('Database error. See server log for details');
     }
-}
+};
+
+const updatePlaylist = async (id: number, playlist: Playlist): Promise<Playlist> => {
+    try {
+        const playlistPrisma = await database.playlist.update({
+            where: {
+                id,
+            },
+            data: {
+                name: playlist.getName(),
+                description: playlist.getDescription(),
+                songs: {
+                    connect: playlist.getSongs().map((song) => ({ id: song.getId() })),
+                },
+                user: {
+                    connect: {
+                        id: playlist.getUser().getId(),
+                    },
+                },
+            },
+            include: {
+                songs: true,
+                user: true,
+            },
+        });
+        return Playlist.from(playlistPrisma);
+    } catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
+};
 
 export default {
     createPlaylist,
     getAllPlaylists,
     getPlaylistByName,
     getPlaylistById,
+    updatePlaylist,
 };

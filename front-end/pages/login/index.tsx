@@ -9,8 +9,8 @@ const Login: React.FC = () => {
                 <title>User Signup</title>
             </Head>
             <Header />
-            <main>
-                <section className="p-6 min-h-screen flex flex-col items-center">
+            <main className="p-6 bg-gradient-to-b from-gray-800 to-gray-600 min-h-screen items-center flex flex-col">
+                <section className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
                     <UserLoginForm />
                 </section>
             </main>

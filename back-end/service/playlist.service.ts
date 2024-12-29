@@ -19,19 +19,19 @@ const createPlaylist = async ({
             if (!songInput.title) {
                 throw new Error('Song is required');
             }
-            const song = await songDb.getSongByTitle({title: songInput.title});
+            const song = await songDb.getSongByTitle({ title: songInput.title });
             if (!song) {
                 throw new Error('Song not found');
             }
             return song;
         })
-    );  
+    );
 
     if (!userInput.email) {
         throw new Error('User is required');
     }
 
-    const user = await userDb.getUserByEmail({email: userInput.email});
+    const user = await userDb.getUserByEmail({ email: userInput.email });
 
     if (!user) {
         throw new Error('User not found');
@@ -52,11 +52,37 @@ const getPlaylistByName = async (name: string): Promise<Playlist | null> => {
 
 const getPlaylistById = async (id: number): Promise<Playlist | null> => {
     return playlistDb.getPlaylistById({ id });
-}
+};
+
+const updatePlaylist = async (id: number, playlist: PlaylistInput): Promise<Playlist> => {
+    const existingPlaylist = await getPlaylistById(id);
+    if (!existingPlaylist) {
+        throw new Error('Playlist not found');
+    }
+    const songs = playlist.songs ? await Promise.all(
+        playlist.songs.map(async (songInput) => {
+            if (!songInput.title) {
+                throw new Error('Song is required');
+            }
+            const song = await songDb.getSongByTitle({ title: songInput.title });
+            if (!song) {
+                throw new Error('Song not found');
+            }
+            return song;
+        })
+    ) : existingPlaylist.songs;
+    const user = await userDb.getUserByEmail({ email: playlist.user.email });
+    if (!user) {
+        throw new Error('User not found');
+    }
+    const updatedPlaylist = new Playlist({ ...existingPlaylist, ...playlist, songs, user });
+    return playlistDb.updatePlaylist(id,updatedPlaylist);
+};
 
 export default {
     createPlaylist,
     getAllPlaylists,
     getPlaylistByName,
     getPlaylistById,
+    updatePlaylist,
 };
