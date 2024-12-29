@@ -107,10 +107,31 @@ const updatePlaylist = async (id: number, playlist: Playlist): Promise<Playlist>
     }
 };
 
+const getPlaylistsByUser = async ({ name }: { name: string }): Promise<Playlist[]> => {
+    try {
+        console.log(name);
+        const playlistsPrisma = await database.playlist.findMany({
+            where: {
+                user: {
+                    name,
+                },
+            },
+            include: {
+                songs: true,
+                user: true,
+            },
+        });
+        return playlistsPrisma.map((playlistPrisma) => Playlist.from(playlistPrisma));
+    } catch (error) {
+        throw new Error('Database error. See server log for details');
+    }
+};
+
 export default {
     createPlaylist,
     getAllPlaylists,
     getPlaylistByName,
     getPlaylistById,
     updatePlaylist,
+    getPlaylistsByUser,
 };

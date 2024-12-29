@@ -33,11 +33,11 @@
  *              type: string
  *            description:
  *              type: string
- * 
+ *
  */
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import playlistService from '../service/playlist.service';
-import { PlaylistInput } from '../types';
+import { PlaylistInput, Role } from '../types';
 
 const playlistRouter = express.Router();
 
@@ -71,11 +71,12 @@ playlistRouter.post('/', async (req, res) => {
     }
 });
 
-
 /**
  * @swagger
  * /playlist:
  *   get:
+ *      security:
+ *        - bearerAuth: []
  *      summary: Get a list of all playlists.
  *      responses:
  *        200:
@@ -85,13 +86,14 @@ playlistRouter.post('/', async (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/Playlist'
  */
-playlistRouter.get('/', async (req, res) => {
+playlistRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const result = await playlistService.getAllPlaylists();
+        const request = req as Request & { auth: { name: string; role: Role } };
+        const { name, role } = request.auth;
+        const result = await playlistService.getAllPlaylists({ name, role });
         res.status(200).json(result);
     } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-        res.status(400).json({ status: 'error', errorMessage: errorMessage });
+        next(error);
     }
 });
 

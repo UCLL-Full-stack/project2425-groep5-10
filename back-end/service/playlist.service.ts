@@ -2,7 +2,7 @@ import { Playlist } from '../model/playlist';
 import playlistDb from '../repository/playlist.db';
 import songDb from '../repository/song.db';
 import userDb from '../repository/user.db';
-import { PlaylistInput } from '../types';
+import { PlaylistInput, Role } from '../types';
 
 const createPlaylist = async ({
     name,
@@ -42,8 +42,15 @@ const createPlaylist = async ({
     return await playlistDb.createPlaylist(playlist);
 };
 
-const getAllPlaylists = (): Promise<Playlist[]> => {
-    return playlistDb.getAllPlaylists();
+const getAllPlaylists = async ({ name, role }: { name: string; role: Role }): Promise<Playlist[]> => {
+    if (role === Role.ADMIN) {
+        return playlistDb.getAllPlaylists();
+    }
+    if (role === Role.USER || role === Role.ARTIST) {
+        return playlistDb.getPlaylistsByUser({ name });
+    } else {
+        throw new Error('Invalid role');
+    }
 };
 
 const getPlaylistByName = async (name: string): Promise<Playlist | null> => {
@@ -59,24 +66,26 @@ const updatePlaylist = async (id: number, playlist: PlaylistInput): Promise<Play
     if (!existingPlaylist) {
         throw new Error('Playlist not found');
     }
-    const songs = playlist.songs ? await Promise.all(
-        playlist.songs.map(async (songInput) => {
-            if (!songInput.title) {
-                throw new Error('Song is required');
-            }
-            const song = await songDb.getSongByTitle({ title: songInput.title });
-            if (!song) {
-                throw new Error('Song not found');
-            }
-            return song;
-        })
-    ) : existingPlaylist.songs;
+    const songs = playlist.songs
+        ? await Promise.all(
+              playlist.songs.map(async (songInput) => {
+                  if (!songInput.title) {
+                      throw new Error('Song is required');
+                  }
+                  const song = await songDb.getSongByTitle({ title: songInput.title });
+                  if (!song) {
+                      throw new Error('Song not found');
+                  }
+                  return song;
+              })
+          )
+        : existingPlaylist.songs;
     const user = await userDb.getUserByEmail({ email: playlist.user.email });
     if (!user) {
         throw new Error('User not found');
     }
     const updatedPlaylist = new Playlist({ ...existingPlaylist, ...playlist, songs, user });
-    return playlistDb.updatePlaylist(id,updatedPlaylist);
+    return playlistDb.updatePlaylist(id, updatedPlaylist);
 };
 
 export default {
